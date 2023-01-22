@@ -33,8 +33,8 @@ function operate(a, b, operator){
         return 'We\'re not doing this here.'
     }
 
-    const result = availableFunctions[operator](a, b);
-
+    let result = availableFunctions[operator](a, b);
+    result = parseFloat(result.toFixed(5));
     return String(result);
 }
 
@@ -66,11 +66,14 @@ function buttonHandler(clickEvent){
     } else if (id === 'evaluate') {
         displayValue = handleInput(displayValue);
     } else {
+        // check if operator is already present
         if (!/[\/\*\+\-]/.test(displayValue)){
             const addition = displayValue.slice(-1) === '.' ?
                                 '0' + target.textContent :
                                 target.textContent;
             displayValue += addition;
+        } else if (/\d/.test(displayValue.slice(-1))){
+            displayValue = handleInput(displayValue) + target.textContent;
         }
     }
 
